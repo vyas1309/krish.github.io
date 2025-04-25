@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Website</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+        }
+        
+        /* Navigation Bar */
+        .nav-container {
+            background: linear-gradient(90deg, #add8e6, #b6e0fe);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 5%;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo {
+            height: 45px;
+            transition: transform 0.3s;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .nav-tabs {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-tabs li {
+            position: relative;
+            margin-left: 25px;
+        }
+        
+        .nav-tabs li a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 600;
+            padding: 8px 12px;
+            transition: all 0.3s;
+            border-radius: 4px;
+        }
+        
+        .nav-tabs li a:hover {
+            color: #0066cc;
+            background: rgba(255,255,255,0.2);
+        }
+        
+        /* Dropdown Menu */
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: white;
+            min-width: 220px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .dropdown li {
+            padding: 12px 15px;
+            border-bottom: 1px solid #f1f1f1;
+            transition: background 0.2s;
+        }
+        
+        .dropdown li:hover {
+            background: #f8f9fa;
+        }
+        
+        .dropdown li:last-child {
+            border-bottom: none;
+        }
+        
+        .dropdown li a {
+            color: #333;
+            display: block;
+            font-weight: 500;
+        }
+        
+        .nav-tabs li:hover .dropdown {
+            display: block;
+        }
+        
+        /* Slideshow */
+        .slideshow {
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 40px;
+        }
+        
+        .slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .slide.active {
+            opacity: 1;
+        }
+        
+        /* Courses Container */
+        .courses-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            padding: 0 20px;
+        }
+        
+        .course-section {
+            background-color: #d9eaf7;
+            border-radius: 10px;
+            padding: 20px;
+            width: 45%;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border: 1px solid #b6d4e8;
+            transition: all 0.3s;
+        }
+        
+        .course-section.selected {
+            border: 2px solid #0a4b8c;
+            box-shadow: 0 0 0 3px rgba(10, 75, 140, 0.2);
+            background-color: #e6f2ff;
+        }
+        
+        .course-title {
+            font-size: 24px;
+            color: #0a4b8c;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .course-subtitle {
+            font-size: 18px;
+            color: #2a5885;
+            text-align: center;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        
+        .price-box {
+            background-color: #e6f2ff;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            border: 1px solid #b6d4e8;
+            color: #0a4b8c;
+        }
+        
+        .select-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .select-btn {
+            background-color: #0a4b8c;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        .select-btn:hover {
+            background-color: #1a6fc9;
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            width: 100%;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .dropdown-content a {
+            color: #0a4b8c;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+        
+        .show {
+            display: block;
+        }
+        
+        .payment-option {
+            display: none;
+            background-color: #e6f2ff;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 10px;
+            border: 1px solid #b6d4e8;
+        }
+        
+        .features {
+            margin-top: 20px;
+            color: #2a5885;
+        }
+        
+        .features li {
+            margin-bottom: 10px;
+        }
+        
+        .selected-course {
+            background-color: #e6f2ff;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            border-left: 4px solid #0a4b8c;
+            display: none;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                padding: 15px 5%;
+            }
+            
+            .logo {
+                margin-bottom: 15px;
+            }
+            
+            .nav-tabs {
+                margin-left: 0;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .nav-tabs li {
+                margin: 5px 10px;
+            }
+            
+            .courses-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .course-section {
+                width: 90%;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="nav-container">
+        <div class="logo-container">
+            <img src="logo of sie.png" alt="Course Logo" class="logo">
+        </div>
+        <ul class="nav-tabs">
+            <li><a href="index.html.html">Home</a></li>
+            <li><a href="about us1.html">About Us</a></li>
+            <li>
+                <a href="#">For Students</a>
+                <ul class="dropdown">
+                    <li><a href="">Artificial Intelligence</a></li>
+                    <li><a href="">Blockchain</a></li>
+                    <li><a href="">Stock Market</a></li>
+                    <li><a href="">Personality Development</a></li>
+                    <li><a href="">Emotional Intelligence</a></li>
+                    <li><a href="">Entrepreneurship</a></li>
+                    <li><a href="">All in one</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">For Teachers</a>
+                <ul class="dropdown">
+                    <li><a href="">Interactive Workshops</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">For Schools</a>
+                <ul class="dropdown">
+                    <li><a href="For school.html">Contact for Collaboration</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>    
+    
+    <div class="slideshow">
+        <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+    </div>
+    
+    <div class="courses-container">
+        <div class="course-section" id="individual-section">
+            <h2 class="course-title">Individual Courses</h2>
+            <h3 class="course-subtitle">These courses are online</h3>
+            <div class="price-box">₹1000</div>
+            
+            <div id="selected-individual-course" class="selected-course">
+                <strong>Selected:</strong> <span id="individual-course-name"></span>
+            </div>
+            
+            <div class="select-box">
+                <button class="select-btn" onclick="toggleDropdown('individual-dropdown')">Select Course</button>
+                <div id="individual-dropdown" class="dropdown-content">
+                    <a href="#" onclick="selectCourse('Artificial Intelligence', 'individual-section')">Artificial Intelligence</a>
+                    <a href="#" onclick="selectCourse('Blockchain', 'individual-section')">Blockchain</a>
+                    <a href="#" onclick="selectCourse('Stock Market', 'individual-section')">Stock Market</a>
+                    <a href="#" onclick="selectCourse('Personal Development', 'individual-section')">Personal Development</a>
+                    <a href="#" onclick="selectCourse('Emotional Learning', 'individual-section')">Emotional Learning</a>
+                    <a href="#" onclick="selectCourse('Entrepreneurship', 'individual-section')">Entrepreneurship</a>
+                </div>
+            </div>
+            
+            <div id="individual-payment" class="payment-option">
+                <button class="select-btn" style="background-color: #2e8b57;">Pay</button>
+            </div>
+            
+            <div class="features">
+                <ul>
+                    <li>Access to selected course materials</li>
+                    <li>Weekly live Q&A sessions</li>
+                    <li>Certificate upon completion</li>
+                    <li>Community forum access</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="course-section" id="allinone-section">
+            <h2 class="course-title">All in One</h2>
+            <h3 class="course-subtitle">These courses are online</h3>
+            <div class="price-box">₹5000</div>
+            
+            <div id="selected-allinone-option" class="selected-course">
+                <strong>Selected:</strong> <span id="allinone-option-name"></span>
+            </div>
+            
+            <div class="select-box">
+                <button class="select-btn" onclick="toggleDropdown('allinone-dropdown')">Select Option</button>
+                <div id="allinone-dropdown" class="dropdown-content">
+                    <a href="#" onclick="selectOption('Pay Full Amount', 'allinone-section')">Pay Full Amount</a>
+                    <a href="#" onclick="selectOption('Make EMI of One Year', 'allinone-section')">Make EMI of One Year</a>
+                </div>
+            </div>
+            
+            <div id="allinone-payment" class="payment-option">
+                <button class="select-btn" style="background-color: #2e8b57;">Proceed</button>
+            </div>
+            
+            <div class="features">
+                <ul>
+                    <li>Access to ALL course materials</li>
+                    <li>Premium certificate upon completion</li>
+                    <li>Priority community forum access</li>
+                    <li>Career guidance and placement support</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Slideshow functionality
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        
+        function showSlide(n) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[n].classList.add('active');
+        }
+        
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }
+        
+        setInterval(nextSlide, 5000);
+        
+        // Dropdown functionality
+        function toggleDropdown(id) {
+            document.getElementById(id).classList.toggle('show');
+        }
+        
+        // Close dropdowns when clicking outside
+        window.onclick = function(event) {
+            if (!event.target.matches('.select-btn')) {
+                const dropdowns = document.getElementsByClassName('dropdown-content');
+                for (let i = 0; i < dropdowns.length; i++) {
+                    const openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+        
+        // Course selection functionality
+        function selectCourse(course, sectionId) {
+            const section = document.getElementById(sectionId);
+            const courseNameElement = document.getElementById(sectionId === 'individual-section' ? 'individual-course-name' : 'allinone-option-name');
+            const selectedCourseElement = document.getElementById(sectionId === 'individual-section' ? 'selected-individual-course' : 'selected-allinone-option');
+            
+            // Update selected course name
+            courseNameElement.textContent = course;
+            
+            // Show selected course display
+            selectedCourseElement.style.display = 'block';
+            
+            // Highlight the selected section
+            document.querySelectorAll('.course-section').forEach(s => s.classList.remove('selected'));
+            section.classList.add('selected');
+            
+            // Show payment option
+            document.getElementById(sectionId === 'individual-section' ? 'individual-payment' : 'allinone-payment').style.display = 'block';
+            
+            // Close dropdown
+            document.getElementById(sectionId === 'individual-section' ? 'individual-dropdown' : 'allinone-dropdown').classList.remove('show');
+        }
+        
+        function selectOption(option, sectionId) {
+            selectCourse(option, sectionId);
+        }
+    </script>
+</body>
+</html>

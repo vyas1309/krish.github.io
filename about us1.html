@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Uplynk - Educating Hustlers. Empowering Leaders</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            background-color: #0a1f3d;
+            color: white;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        
+        /* Background Slideshow */
+        .slideshow {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            background-color: #0a1f3d;
+        }
+        
+        .slide.active {
+            opacity: 0.3;
+        }
+        
+        /* Navigation Bar */
+        .nav-container {
+            background: rgba(16, 57, 104, 0.9);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 5%;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(5px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .logo {
+            height: 40px;
+            transition: transform 0.3s;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .nav-tabs {
+            display: flex;
+            list-style: none;
+            margin-left: auto;
+        }
+        
+        .nav-tabs li {
+            position: relative;
+            margin-left: 25px;
+        }
+        
+        .nav-tabs li a {
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            padding: 8px 12px;
+            transition: all 0.3s;
+            border-radius: 4px;
+        }
+        
+        .nav-tabs li a:hover {
+            color: #4fc3f7;
+            background: rgba(255,255,255,0.1);
+        }
+        
+        /* Dropdown Menu */
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: rgba(16, 57, 104, 0.95);
+            min-width: 220px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border-radius: 0 0 8px 8px;
+            display: none;
+            animation: fadeIn 0.3s;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-top: 3px solid #4fc3f7;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .dropdown li {
+            padding: 12px 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition: background 0.2s;
+        }
+        
+        .dropdown li:hover {
+            background: rgba(79,195,247,0.1);
+        }
+        
+        .dropdown li:last-child {
+            border-bottom: none;
+        }
+        
+        .dropdown li a {
+            color: white;
+            display: block;
+            font-weight: 400;
+        }
+        
+        .nav-tabs li:hover .dropdown {
+            display: block;
+        }
+        
+        /* Main Content */
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 100px 5% 60px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .section {
+            margin-bottom: 60px;
+            background: rgba(16, 57, 104, 0.7);
+            padding: 40px;
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden; /* For floated images */
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 30px;
+            color: #4fc3f7;
+            position: relative;
+            display: inline-block;
+        }
+        
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #4fc3f7, #64b5f6);
+            border-radius: 2px;
+        }
+        
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #4fc3f7;
+        }
+        
+        p, ul {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        ul {
+            padding-left: 20px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+        }
+        
+        .highlight-box {
+            background: rgba(79,195,247,0.1);
+            border-left: 4px solid #4fc3f7;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        /* Image Styles */
+        .content-img {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .img-left {
+            float: left;
+            margin-right: 30px;
+        }
+        
+        .img-right {
+            float: right;
+            margin-left: 30px;
+        }
+        
+        /* Clear floats */
+        .clearfix::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                padding: 15px 5%;
+            }
+            
+            .logo {
+                margin-bottom: 15px;
+            }
+            
+            .nav-tabs {
+                margin-left: 0;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .nav-tabs li {
+                margin: 5px 10px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .section {
+                padding: 30px 20px;
+            }
+            
+            .img-left, .img-right {
+                float: none;
+                margin: 20px auto;
+                display: block;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Background Slideshow -->
+    <div class="slideshow">
+        <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+    </div>
+    
+    <!-- Navigation Bar -->
+    <div class="nav-container">
+        <img src="logo of sie.png" alt="Uplynk Logo" class="logo">
+        <ul class="nav-tabs">
+            <li><a href="index.html.html">Home</a></li>
+            <li><a href="about us1.html">About Us</a></li>
+            <li>
+                <a href="#">For Students</a>
+                <ul class="dropdown">
+                    <li><a href="index1.html">Artificial Intelligence</a></li>
+                    <li><a href="index1.html">Blockchain</a></li>
+                    <li><a href="index1.html">Stock Market</a></li>
+                    <li><a href="index1.html">Personality Development</a></li>
+                    <li><a href="index1.html">Emotional Intelligence</a></li>
+                    <li><a href="index1.html">Entrepreneurship</a></li>
+                    <li><a href="index1.html">All in one</a></li>  
+                </ul>
+            </li>
+            <li>
+                <a href="#">For Teachers</a>
+                <ul class="dropdown">
+                    <li><a href="For school.html">Interactive Workshops</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="https://google.com">For Schools</a>
+                <ul class="dropdown">
+                    <li><a href="https://google.com">Contact for Collaboration</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="content">
+        <section id="about" class="section clearfix">
+            <h1>CORE IDEA</h1>
+            <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Students learning with technology" class="img-right">
+            <p>Uplynk is reimagining education by transforming exam-centric classrooms into launchpads for creators, entrepreneurs, and innovators. Using satellite-powered, solar-enabled, and offline-first technology—complemented by online access—we deliver modular learning kits focused on real-world skills like AI, coding, blockchain, finance, leadership, and emotional intelligence.</p>
+            <p>Our approach combines cutting-edge technology with proven pedagogical methods to create engaging learning experiences that prepare students for the challenges of tomorrow.</p>
+        </section>
+        
+        <section class="section clearfix">
+            <h2>The Problem</h2>
+            <img src="https://images.unsplash.com/photo-1588072432836-e10032774350?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Traditional classroom" class="img-left">
+            <p>India's education system still emphasizes rote learning, ignoring emotional growth, creative thinking, and practical life skills. Students lack exposure to entrepreneurship, innovation, and modern technologies.</p>
+            <p>EdTech solutions remain internet-dependent, leaving rural and underserved areas behind. Even in cities, parents often seek external programs to fill these gaps in traditional education.</p>
+        </section>
+        
+        <section class="section clearfix">
+            <h2>Target Audience</h2>
+            <img src="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Diverse students" class="img-right">
+            <ul>
+                <li><strong>Primary Customers:</strong> Private and government schools (urban + rural), government bodies, and NGOs seeking scalable education reform.</li>
+                <li><strong>End Users:</strong> Students (Grades 6-12) needing future-facing education, and teachers requiring modern training and support.</li>
+            </ul>
+            <p>Our programs are designed to be accessible to all students, regardless of their background or location.</p>
+        </section>
+        
+        <section class="section clearfix">
+            <h2>Revenue Model</h2>
+            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Business growth" class="img-left">
+            <div class="highlight-box">
+                <ol style="padding-left: 20px;">
+                    <li><strong>School Subscriptions</strong> - B2B annual packages with content, broadcasts, and teacher bootcamps.</li>
+                    <li><strong>Government & NGO Partnerships:</strong> Setting up solar-powered learning hubs and training infrastructure.</li>
+                    <li><strong>Teacher Certification Programs</strong> - Satellite and online-based premium training and mentorship.</li>
+                    <li><strong>Online Learning Modules</strong> – Optional add-ons for schools and individuals to access content through digital platforms.</li>
+                </ol>
+            </div>
+        </section>
+        
+        <section class="section clearfix">
+            <h2>Our Vision</h2>
+            <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Future of education" class="img-right">
+            <p>To make world-class education accessible everywhere—online and offline—empowering every learner, regardless of geography, to unlock their full potential and shape the future.</p>
+            <p>We believe in creating equal opportunities for all students to develop the skills they need to thrive in the 21st century economy.</p>
+        </section>
+    </div>
+
+    <script>
+        // Background Slideshow Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const slides = document.querySelectorAll('.slide');
+            let currentSlide = 0;
+            
+            function nextSlide() {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].classList.add('active');
+            }
+            
+            // Change slide every 5 seconds
+            setInterval(nextSlide, 5000);
+            
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
